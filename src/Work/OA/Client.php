@@ -146,4 +146,32 @@ class Client extends BaseClient
 
         return $this->httpPostJson('cgi-bin/corp/getapprovaldata', $params);
     }
+
+    /**
+     * get journal list
+     */
+    public function journalRecords(int $startTime, int $endTime, int $nextCursor = 0, int $size = 100, array $filters = [])
+    {
+        $params = [
+            'starttime' => $startTime,
+            'endtime' => $endTime,
+            'cursor' => $nextCursor,
+            'limit' => $size > 100 ? 100 : $size,
+            'filters' => $filters,
+        ];
+
+        return $this->httpPostJson('cgi-bin/oa/journal/get_record_list', $params);
+    }
+
+    /***
+     * get journal detail
+     */
+    public function journalDetail(string $journalid)
+    {
+        $params = [
+            'journaluuid' => $journalid,
+        ];
+
+        return $this->httpPostJson('cgi-bin/oa/journal/get_record_detail', $params);
+    }
 }
