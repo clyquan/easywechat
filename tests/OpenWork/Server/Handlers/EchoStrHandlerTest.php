@@ -46,13 +46,16 @@ class EchoStrHandlerTest extends TestCase
     public function testHandleWithSuiteTicket()
     {
         $request = Request::create('foo/bar/server');
-        $app = new Application([], [
+        $app = new Application([
+            'suite_id' => 'mock-suite-id'
+        ], [
             'request' => $request,
         ]);
 
         $handler = \Mockery::mock(EchoStrHandler::class, [$app])->makePartial()->shouldAllowMockingProtectedMethods();
         $handler->handle([
             'SuiteTicket' => 'mock-suite-ticket',
+            'SuiteId' => 'mock-suite-id',
         ]);
 
         $this->assertSame('mock-suite-ticket', $app['suite_ticket']->getTicket());
